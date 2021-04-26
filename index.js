@@ -3,8 +3,6 @@ const JSONToCSV = require("json2csv").parse;
 const FileSystem = require("fs");
 const csvtojson = require("csvtojson");
 
-var dataSorted;
-
 CSVToJSON().fromFile("./dataCopy.csv").then(source => {
     //console.log(source);
     source.sort(function (a, b) {
@@ -12,7 +10,8 @@ CSVToJSON().fromFile("./dataCopy.csv").then(source => {
     });
     //FileSystem.writeFileSync("./jsData_sorted.json", JSON.stringify(source));
     let count = 1;
-    for (let j = 0; j < 42; j++) {
+    //for (let j = 0; j < 42; j++) {
+    while (source.length > 0) {
         let temp;
         if (source.length > 25000) {
             let lastId = source[24999]["ENRNO"];
@@ -23,8 +22,7 @@ CSVToJSON().fromFile("./dataCopy.csv").then(source => {
                 }
             }
         }
-        else
-            temp = source;
+        else { temp = source; source = []; }
         const csv = JSONToCSV(temp, { fields: ["ENRNO", "PROGRAM", "SSSN", "COURSE", "SEM_YEAR", "REMARKS"] });
         FileSystem.writeFileSync(`./output${count}.csv`, csv);
         count++;
