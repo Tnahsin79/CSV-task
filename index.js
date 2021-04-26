@@ -3,7 +3,7 @@ const JSONToCSV = require("json2csv").parse;
 const FileSystem = require("fs");
 const csvtojson = require("csvtojson");
 
-CSVToJSON().fromFile("./dataCopy.csv").then(source => {
+CSVToJSON().fromFile("./4ELE.csv").then(source => {
     //console.log(source);
     source.sort(function (a, b) {
         return a["ENRNO"] - b["ENRNO"];
@@ -24,7 +24,7 @@ CSVToJSON().fromFile("./dataCopy.csv").then(source => {
         }
         else { temp = source; source = []; }
         const csv = JSONToCSV(temp, { fields: ["ENRNO", "PROGRAM", "SSSN", "COURSE", "SEM_YEAR", "REMARKS"] });
-        FileSystem.writeFileSync(`./output${count}.csv`, csv);
+        FileSystem.writeFileSync(`./LOT${count}.csv`, csv);
         count++;
     }
 });
